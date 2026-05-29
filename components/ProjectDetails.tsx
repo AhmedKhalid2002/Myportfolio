@@ -10,6 +10,7 @@ import {
   HiCheckCircle,
 } from 'react-icons/hi2';
 import { Project } from '@/data/portfolioData';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface ProjectDetailsProps {
   project: Project | null;
@@ -17,16 +18,41 @@ interface ProjectDetailsProps {
   isDarkMode: boolean;
 }
 
+// كائن ترجمة محلي للنصوص الثابتة داخل المودال
+const modalTranslations = {
+  en: {
+    techTitle: 'Technologies & Tools',
+    showLess: 'Show Less',
+    more: 'More',
+    overview: 'Project Overview',
+    features: 'Key Features',
+    liveDemo: 'Live Demo',
+    sourceCode: 'Source Code',
+  },
+  ar: {
+    techTitle: 'التقنيات والأدوات',
+    showLess: 'عرض أقل',
+    more: 'المزيد',
+    overview: 'نظرة عامة على المشروع',
+    features: 'الميزات الرئيسية',
+    liveDemo: 'عرض مباشر',
+    sourceCode: 'الكود المصدري',
+  },
+};
+
 // كومبوننت فرعي للتحكم في عرض التقنيات
 function TechnologiesSection({
   tags,
   isDarkMode,
+  lang,
 }: {
   tags: string[];
   isDarkMode: boolean;
+  lang: 'en' | 'ar';
 }) {
   const [showAll, setShowAll] = useState(false);
   const initialLimit = 3;
+  const t = modalTranslations[lang];
 
   const displayedTags = showAll ? tags : tags.slice(0, initialLimit);
 
@@ -34,7 +60,7 @@ function TechnologiesSection({
     <div>
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-xs font-bold uppercase tracking-widest text-cyan-500">
-          Technologies & Tools
+          {t.techTitle}
         </h3>
         {tags.length > initialLimit && (
           <button
@@ -45,7 +71,7 @@ function TechnologiesSection({
                 : 'text-slate-500 hover:text-slate-900'
             }`}
           >
-            {showAll ? 'Show Less' : `+${tags.length - initialLimit} More`}
+            {showAll ? t.showLess : `+${tags.length - initialLimit} ${t.more}`}
           </button>
         )}
       </div>
@@ -73,7 +99,9 @@ export default function ProjectDetails({
   onClose,
   isDarkMode,
 }: ProjectDetailsProps) {
+  const { lang } = useLanguage(); // الحصول على اللغة الحالية
   const [activeImage, setActiveImage] = useState<string>('');
+  const t = modalTranslations[lang];
 
   useEffect(() => {
     if (project) {
@@ -82,6 +110,22 @@ export default function ProjectDetails({
   }, [project]);
 
   if (!project) return null;
+
+  // اختيار المحتوى بناءً على اللغة
+  const title = lang === 'ar' && project.title_ar ? project.title_ar : project.title;
+  const description =
+    lang === 'ar' && project.description_ar
+      ? project.description_ar
+      : project.description;
+  const longDescription =
+    lang === 'ar' && project.longDescription_ar
+      ? project.longDescription_ar
+      : project.longDescription;
+  // استخدام الميزات العربية إذا كانت موجودة وغير فارغة
+  const features =
+    lang === 'ar' && project.features_ar && project.features_ar.length > 0
+      ? project.features_ar
+      : project.features;
 
   const backdropVariants = {
     hidden: { opacity: 0 },
@@ -189,12 +233,12 @@ export default function ProjectDetails({
         <div className="md:col-span-7 p-6 md:p-8 flex flex-col h-full overflow-y-auto custom-scrollbar">
           <div className="mb-5">
             <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2.5">
-              {project.title}
+              {title}
             </h2>
             <p
               className={`text-sm md:text-base font-medium leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}
             >
-              {project.description}
+              {description}
             </p>
           </div>
 
@@ -205,22 +249,22 @@ export default function ProjectDetails({
           <div className="flex-1 flex flex-col gap-6 pr-1">
             <div>
               <h3 className="text-xs font-bold uppercase tracking-widest text-cyan-500 mb-2">
-                Project Overview
+                {t.overview}
               </h3>
               <p
                 className={`text-sm leading-relaxed font-normal ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}
               >
-                {project.longDescription}
+                {longDescription}
               </p>
             </div>
 
-            {project.features && project.features.length > 0 && (
+            {features && features.length > 0 && (
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-widest text-cyan-500 mb-3">
-                  Key Features
+                  {t.features}
                 </h3>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {project.features.map((feature, index) => (
+                  {features.map((feature, index) => (
                     <li
                       key={index}
                       className={`text-sm flex items-start gap-2.5 font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}
@@ -239,6 +283,7 @@ export default function ProjectDetails({
             <TechnologiesSection
               tags={project.tags || []}
               isDarkMode={isDarkMode}
+              lang={lang}
             />
           </div>
 
@@ -252,7 +297,7 @@ export default function ProjectDetails({
                 rel="noopener noreferrer"
                 className="w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-sky-600 hover:from-sky-600 hover:to-cyan-500 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-md shadow-cyan-600/20 text-sm tracking-wide"
               >
-                <HiGlobeAlt size={18} /> Live Demo
+                <HiGlobeAlt size={18} /> {t.liveDemo}
               </a>
             )}
             {project.githubLink && (
@@ -262,7 +307,7 @@ export default function ProjectDetails({
                 rel="noopener noreferrer"
                 className={`w-full py-3 px-4 border font-bold rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.98] text-sm tracking-wide ${isDarkMode ? 'border-slate-700 text-slate-300 bg-slate-800/50 hover:bg-slate-800' : 'border-slate-200 text-slate-700 bg-slate-50 hover:bg-slate-100'}`}
               >
-                <HiCodeBracket size={18} /> Source Code
+                <HiCodeBracket size={18} /> {t.sourceCode}
               </a>
             )}
           </div>

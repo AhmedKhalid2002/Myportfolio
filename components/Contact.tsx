@@ -7,31 +7,55 @@ import {
   HiOutlineChatBubbleLeftRight,
 } from 'react-icons/hi2';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
+import { useLanguage } from '@/context/LanguageContext'; // استيراد هوك اللغة
 
 interface ContactProps {
   isDarkMode: boolean;
 }
 
 export default function Contact({ isDarkMode }: ContactProps) {
-  // كروت التواصل الأساسية (الإيميل والهاتف)
+  const { lang, t } = useLanguage(); // الحصول على اللغة الحالية ودالة الترجمة
+
+  // نصوص البطاقات (Card Text)
+  const cardText = {
+    en: {
+      emailTitle: 'Email',
+      emailAction: 'Send an email',
+      phoneTitle: 'Phone',
+      phoneAction: 'Call directly',
+      socialTitle: 'Social Media',
+      socialSub: 'LinkedIn / GitHub',
+    },
+    ar: {
+      emailTitle: 'البريد الإلكتروني',
+      emailAction: 'إرسال بريد',
+      phoneTitle: 'الهاتف',
+      phoneAction: 'اتصال مباشر',
+      socialTitle: 'وسائل التواصل',
+      socialSub: 'لينكد إن / جيت هب',
+    },
+  };
+
+  const text = cardText[lang];
+
+  // بيانات التواصل
   const directMethods = [
     {
       icon: <HiOutlineEnvelope size={28} />,
-      title: 'Email',
-      value: 'kmalahmdkhald927@gmail.com', // تم تحديثه بناءً على الـ CV السابق
+      title: text.emailTitle,
+      value: 'kmalahmdkhald927@gmail.com',
       link: 'mailto:kmalahmdkhald927@gmail.com',
-      actionText: 'Send an email',
+      actionText: text.emailAction,
     },
     {
       icon: <HiOutlinePhone size={28} />,
-      title: 'Phone',
+      title: text.phoneTitle,
       value: '+20 103 157 1508',
       link: 'tel:+201031571508',
-      actionText: 'Call directly',
+      actionText: text.phoneAction,
     },
   ];
 
-  // روابط السوشيال ميديا المفصلة
   const socialLinks = [
     {
       name: 'LinkedIn',
@@ -57,22 +81,21 @@ export default function Contact({ isDarkMode }: ContactProps) {
       {/* العناوين الأساسية */}
       <div className="text-center mb-16">
         <span className="text-xs font-bold uppercase tracking-widest text-cyan-500">
-          Get In Touch
+          {t('contact_subtitle')} {/* Get In Touch */}
         </span>
         <h2
           className={`text-3xl md:text-4xl font-bold mt-2 transition-colors duration-500 ${
             isDarkMode ? 'text-white' : 'text-slate-900'
           }`}
         >
-          Let&apos;s Talk
+          {t('contact_title')} {/* Let's Talk */}
         </h2>
         <p
           className={`text-sm mt-3 max-w-md mx-auto transition-colors duration-500 ${
             isDarkMode ? 'text-slate-400' : 'text-slate-500'
           }`}
         >
-          Feel free to reach out through any of these channels. I am always open
-          to discussing new projects or opportunities!
+          {t('contact_desc')} {/* Description */}
         </p>
       </div>
 
@@ -112,7 +135,9 @@ export default function Contact({ isDarkMode }: ContactProps) {
 
             <p className={`text-sm mb-4 transition-colors duration-500 font-medium ${
               isDarkMode ? 'text-slate-400' : 'text-slate-600'
-            }`}>
+            }`}
+            dir="ltr" // ضمان اتجاه النص من اليسار لليمين للبيانات
+            >
               {method.value}
             </p>
 
@@ -145,13 +170,15 @@ export default function Contact({ isDarkMode }: ContactProps) {
           <h3 className={`text-lg font-bold mb-1 transition-colors duration-500 ${
             isDarkMode ? 'text-white' : 'text-slate-800'
           }`}>
-            Social Media
+            {text.socialTitle}
           </h3>
 
           <p className={`text-sm mb-4 transition-colors duration-500 font-medium ${
             isDarkMode ? 'text-slate-400' : 'text-slate-600'
-          }`}>
-            LinkedIn / GitHub
+          }`}
+          dir="ltr"
+          >
+            {text.socialSub}
           </p>
 
           {/* أزرار الانتقال المباشرة للحسابات */}

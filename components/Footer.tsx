@@ -2,13 +2,31 @@
 
 import { FaLinkedin, FaGithub, FaWhatsapp } from 'react-icons/fa';
 import { HiOutlineEnvelope, HiOutlinePhone } from 'react-icons/hi2';
+import { useLanguage } from '@/context/LanguageContext'; // استيراد هوك اللغة
 
 interface FooterProps {
   isDarkMode: boolean;
 }
 
 export default function Footer({ isDarkMode }: FooterProps) {
+  const { lang, t } = useLanguage(); // الحصول على اللغة الحالية ودالة الترجمة
   const currentYear = new Date().getFullYear();
+
+  // كائن ترجمة للنصوص الثابتة داخل الفوتر
+  const footerText = {
+    en: {
+      bio: 'A passionate MERN Stack Developer dedicated to building scalable and modern web applications.',
+      contactTitle: 'Contact Info',
+      followTitle: 'Follow Me',
+    },
+    ar: {
+      bio: 'مطور MERN Stack شغوف ببناء تطبيقات ويب حديثة وقابلة للتوسع.',
+      contactTitle: 'معلومات التواصل',
+      followTitle: 'تابعني',
+    },
+  };
+  
+  const text = footerText[lang];
 
   // بيانات التواصل والسوشيال ميديا
   const contactInfo = [
@@ -42,7 +60,7 @@ export default function Footer({ isDarkMode }: FooterProps) {
           <p className={`text-sm leading-relaxed ${
             isDarkMode ? 'text-slate-400' : 'text-slate-600'
           }`}>
-            A passionate MERN Stack Developer dedicated to building scalable and modern web applications.
+            {text.bio}
           </p>
         </div>
 
@@ -51,7 +69,7 @@ export default function Footer({ isDarkMode }: FooterProps) {
           <h4 className={`text-lg font-bold mb-4 transition-colors duration-500 ${
             isDarkMode ? 'text-white' : 'text-slate-900'
           }`}>
-            Contact Info
+            {text.contactTitle}
           </h4>
           <div className="space-y-3">
             {contactInfo.map((item, idx) => (
@@ -78,7 +96,7 @@ export default function Footer({ isDarkMode }: FooterProps) {
           <h4 className={`text-lg font-bold mb-4 transition-colors duration-500 ${
             isDarkMode ? 'text-white' : 'text-slate-900'
           }`}>
-            Follow Me
+            {text.followTitle}
           </h4>
           <div className="flex gap-3">
             {socialLinks.map((soc, idx) => (
@@ -107,7 +125,7 @@ export default function Footer({ isDarkMode }: FooterProps) {
         isDarkMode ? 'border-slate-800' : 'border-slate-100'
       }`}>
         <p>
-          &copy; {currentYear} <span className="font-semibold text-cyan-500">Ahmed Khalid</span>. All Rights Reserved.
+          &copy; {currentYear} <span className="font-semibold text-cyan-500">Ahmed Khalid</span>. {t('footer_rights')}
         </p>
       </div>
     </footer>

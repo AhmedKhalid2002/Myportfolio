@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData, skillIcons } from '@/data/portfolioData';
 import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext'; // استيراد هوك اللغة
 
 type Category = 'frontend' | 'backend' | 'database' | 'tools';
 
@@ -12,18 +13,20 @@ export interface SkillsProps {
 }
 
 export default function Skills({ isDarkMode }: SkillsProps) {
+  const { lang, t } = useLanguage(); // الحصول على اللغة الحالية ودالة الترجمة
   const [activeCategory, setActiveCategory] = useState<Category>('frontend');
   const { skillsCategories } = portfolioData;
 
+  // تعريف التبويبات مع الترجمة
   const tabs = [
-    { id: 'frontend', label: 'Frontend' },
-    { id: 'backend', label: 'Backend' },
-    { id: 'database', label: 'Database' },
-    { id: 'tools', label: 'Tools & DevOps' },
+    { id: 'frontend', label_en: 'Frontend', label_ar: 'تطوير الواجهات' },
+    { id: 'backend', label_en: 'Backend', label_ar: 'تطوير الخلفية' },
+    { id: 'database', label_en: 'Database', label_ar: 'قواعد البيانات' },
+    { id: 'tools', label_en: 'Tools & DevOps', label_ar: 'الأدوات' },
   ] as const;
 
   // قائمة المهارات التي تحتاج عكس الألوان في الوضع الداكن
-  const invertedSkills = ['GitHub', 'Axios', 'Git', 'Yup', 'Joi', 'Zod', 'Formik', 'React Hook Form'];
+  const invertedSkills = ['GitHub', 'Axios', 'Git', 'Yup', 'Joi', 'Zod', 'Formik', 'React Hook Form', 'Class Validator'];
 
   return (
     <section
@@ -41,7 +44,7 @@ export default function Skills({ isDarkMode }: SkillsProps) {
           whileInView={{ opacity: 1, y: 0 }}
           className="text-xs font-bold uppercase tracking-widest text-cyan-500"
         >
-          Abilities
+          {t('skills_subtitle')} {/* Abilities */}
         </motion.span>
         <motion.h2 
           initial={{ opacity: 0, y: 10 }}
@@ -49,30 +52,35 @@ export default function Skills({ isDarkMode }: SkillsProps) {
           transition={{ delay: 0.1 }}
           className={`text-3xl md:text-4xl font-bold mt-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
         >
-          Technical Skills
+          {t('skills_title')} {/* Technical Skills */}
         </motion.h2>
         <p className={`mt-3 text-sm max-w-md mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-          Technologies and tools I use to build exceptional digital experiences.
+          {t('skills_desc')} {/* Description */}
         </p>
       </div>
 
       {/* Tabs Navigation */}
       <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-12">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveCategory(tab.id)}
-            className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${
-              activeCategory === tab.id
-                ? 'bg-gradient-to-r from-cyan-500 to-sky-600 border-transparent text-white shadow-lg shadow-cyan-500/30 scale-105'
-                : isDarkMode
-                  ? 'bg-slate-900/50 border-slate-800 text-slate-400 hover:border-slate-600 hover:text-slate-200'
-                  : 'bg-slate-100 border-slate-200 text-slate-600 hover:bg-slate-200 hover:border-slate-300'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+        {tabs.map((tab) => {
+          // اختيار النص بناءً على اللغة
+          const label = lang === 'ar' ? tab.label_ar : tab.label_en;
+          
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveCategory(tab.id)}
+              className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${
+                activeCategory === tab.id
+                  ? 'bg-gradient-to-r from-cyan-500 to-sky-600 border-transparent text-white shadow-lg shadow-cyan-500/30 scale-105'
+                  : isDarkMode
+                    ? 'bg-slate-900/50 border-slate-800 text-slate-400 hover:border-slate-600 hover:text-slate-200'
+                    : 'bg-slate-100 border-slate-200 text-slate-600 hover:bg-slate-200 hover:border-slate-300'
+              }`}
+            >
+              {label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Skills Grid Container */}

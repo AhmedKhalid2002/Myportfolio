@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { LanguageProvider } from '@/context/LanguageContext'; // استيراد الـ Provider
 
 export const metadata: Metadata = {
   title: 'Ahmed Khalid | Portfolio',
@@ -12,10 +13,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      {/* تم تحديث الخلفية الافتراضية لتكون من عائلة slate */}
+    <html lang="en"  className="scroll-smooth">
       <body className="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased">
-       {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -5,6 +5,7 @@ import Typewriter from 'typewriter-effect';
 import dynamic from 'next/dynamic';
 import { portfolioData } from '@/data/portfolioData';
 import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext';
 
 const ParticlesBackground = dynamic(() => import('./ParticlesBackground'), {
   ssr: false,
@@ -16,87 +17,73 @@ interface HeroProps {
 }
 
 export default function Hero({ isDarkMode, setActiveTab }: HeroProps) {
+  const { lang, t } = useLanguage();
   const { profile } = portfolioData;
+
+  // اختيار البيانات بناءً على اللغة
+  const name = lang === 'ar' ? profile.name_ar : profile.name;
+  const roles = lang === 'ar' ? profile.roles_ar : profile.roles;
+  const bio = lang === 'ar' ? profile.bio_ar : profile.bio;
 
   return (
     <section
-      className={`relative min-h-screen w-full flex items-center justify-center px-4 overflow-hidden z-0 transition-all duration-700 ${
-        isDarkMode
-          ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950' // خلفية داكنة بلمسة زرقاء
-          : 'bg-gradient-to-br from-slate-50 via-white to-cyan-50' // خلفية فاتحة مثلجة
+      className={`relative min-h-[calc(100vh-100px)] w-full flex items-center justify-center px-4 overflow-hidden transition-colors duration-500 z-0 ${
+        isDarkMode ? 'bg-slate-950' : 'bg-slate-50/50'
       }`}
     >
-      {/* استدعاء الخلفية */}
       <ParticlesBackground />
 
-      <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center z-10 relative py-20">
-        
-        {/* الجزء النصفي - التفاصيل */}
+      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center z-10 relative">
         <motion.div
-          className="lg:col-span-7 text-center lg:text-left space-y-6"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="pointer-events-auto"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          {/* عنوان فرعي صغير */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className={`inline-block px-4 py-1.5 rounded-full text-xs font-semibold border backdrop-blur-md ${
-              isDarkMode
-                ? 'bg-cyan-900/20 border-cyan-800/30 text-cyan-300'
-                : 'bg-cyan-100/50 border-cyan-200 text-cyan-700'
-            }`}
-          >
-            Welcome to my Portfolio
-          </motion.div>
-
           <h1
-            className={`text-4xl md:text-6xl font-bold tracking-tight leading-tight ${
+            className={`text-4xl md:text-6xl font-bold mb-4 tracking-tight transition-colors duration-500 ${
               isDarkMode ? 'text-white' : 'text-slate-900'
             }`}
           >
-            Hi, I am{' '}
+            {t('hero_greeting')}{' '}
             <span className="bg-gradient-to-r from-cyan-500 to-sky-600 bg-clip-text text-transparent">
-              {profile.name}
+              {name}
             </span>
           </h1>
 
           <div
-            className={`text-xl md:text-2xl font-medium flex items-center gap-2 justify-center lg:justify-start ${
+            className={`text-xl md:text-2xl font-semibold mb-6 flex gap-2 transition-colors duration-500 ${
               isDarkMode ? 'text-slate-400' : 'text-slate-600'
             }`}
           >
-            <span>I am a</span>
-            <span className="text-cyan-500 font-bold">
+            {t('hero_role_prefix')}
+            <span className="text-cyan-500">
               <Typewriter
                 options={{
-                  strings: profile.roles,
+                  strings: roles,
                   autoStart: true,
                   loop: true,
-                  delay: 50,
-                  deleteSpeed: 30,
+                  delay: 60,
+                  deleteSpeed: 40,
                 }}
               />
             </span>
           </div>
 
           <p
-            className={`max-w-lg mx-auto lg:mx-0 leading-relaxed text-base ${
+            className={`mb-8 max-w-lg leading-relaxed transition-colors duration-500 ${
               isDarkMode ? 'text-slate-400' : 'text-slate-500'
             }`}
           >
-            {profile.bio}
+            {bio}
           </p>
 
-          {/* أزرار الأكشن */}
-          <div className="flex gap-4 justify-center lg:justify-start pt-4">
+          <div className="flex gap-4">
             <button
               onClick={() => setActiveTab('contact')}
-              className="group relative px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-sky-600 text-white rounded-lg font-semibold overflow-hidden shadow-lg shadow-cyan-500/30 hover:shadow-sky-500/40 transition-all duration-300 active:scale-95"
+              className="group relative px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-sky-600 text-white rounded-lg font-semibold overflow-hidden shadow-lg shadow-cyan-500/30 hover:shadow-sky-500/40 transition-all duration-300 active:scale-95 cursor-pointer"
             >
-              <span className="relative z-10">Contact Me</span>
+              <span className="relative z-10">{t('btn_contact')}</span>
               <div className="absolute inset-0 bg-gradient-to-r from-sky-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </button>
             
@@ -110,41 +97,33 @@ export default function Hero({ isDarkMode, setActiveTab }: HeroProps) {
                   : 'border-cyan-300 text-cyan-700 hover:bg-cyan-50 hover:border-cyan-400'
               }`}
             >
-              Download CV
+              {t('btn_download_cv')}
             </a>
           </div>
         </motion.div>
 
-        {/* الجزء النصفي - الصورة (تأثير الزجاج المثلج) */}
-        <motion.div
-          className="lg:col-span-5 flex justify-center items-center"
-          initial={{ opacity: 0, scale: 0.8 }}
+        {/* ... Image Section remains the same ... */}
+         <motion.div
+          className="flex justify-center pointer-events-auto"
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: 'backOut' }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="relative">
-            {/* تأثير التوهج خلف الصورة */}
-            <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500 to-sky-400 rounded-3xl blur-2xl opacity-20 dark:opacity-30" />
-            
-            {/* إطار الصورة */}
-            <div
-              className={`relative w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden p-1 backdrop-blur-xl border transition-all duration-500 ${
-                isDarkMode
-                  ? 'bg-white/5 border-white/10 shadow-2xl shadow-cyan-900/20'
-                  : 'bg-white/70 border-white/50 shadow-xl'
-              }`}
-            >
-              <div className="w-full h-full rounded-2xl overflow-hidden relative">
-                <Image
-                  src={profile.myImage}
-                  alt={profile.name}
-                  fill
-                  className="object-cover object-top"
-                  priority
-                />
-                {/* تراكب لوني خفيف للستايل */}
-                <div className={`absolute inset-0 mix-blend-multiply ${isDarkMode ? 'bg-cyan-900/10' : 'bg-transparent'}`} />
-              </div>
+          <div
+            className={`relative w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden p-1 backdrop-blur-xl border transition-all duration-500 shadow-2xl ${
+              isDarkMode
+                ? 'bg-white/5 border-white/10 shadow-cyan-900/20'
+                : 'bg-white/70 border-white/50 shadow-xl'
+            }`}
+          >
+            <div className="w-full h-full rounded-2xl overflow-hidden relative">
+              <Image
+                src={profile.myImage}
+                alt={name || ''}
+                fill
+                className="object-cover object-top"
+                priority
+              />
             </div>
           </div>
         </motion.div>

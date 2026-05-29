@@ -19,14 +19,14 @@ export default function Home() {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'home': return <Hero isDarkMode={isDarkMode} />;
-      case 'about': return <About isDarkMode={isDarkMode} />;
+      case 'home': return <Hero setActiveTab={setActiveTab} isDarkMode={isDarkMode} />;
+      case 'about': return <About setActiveTab={setActiveTab} isDarkMode={isDarkMode} />;
       case 'qualification': return <Qualification isDarkMode={isDarkMode} />;
       case 'skills': return <Skills isDarkMode={isDarkMode} />;
       case 'works': return <RecentWorks isDarkMode={isDarkMode} />;
       case 'services': return <Services isDarkMode={isDarkMode} />;
       case 'contact': return <Contact isDarkMode={isDarkMode} />;
-      default: return <Hero isDarkMode={isDarkMode} />;
+      default: return <Hero setActiveTab={setActiveTab} isDarkMode={isDarkMode} />;
     }
   };
 

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
 import dynamic from 'next/dynamic';
 import { portfolioData } from '@/data/portfolioData';
+import Image from 'next/image';
 
 const ParticlesBackground = dynamic(() => import('./ParticlesBackground'), {
   ssr: false,
@@ -11,9 +12,10 @@ const ParticlesBackground = dynamic(() => import('./ParticlesBackground'), {
 
 interface HeroProps {
   isDarkMode: boolean;
+  setActiveTab: (tab: string) => void; // 1. إضافة الخاصية هنا
 }
 
-export default function Hero({ isDarkMode }: HeroProps) {
+export default function Hero({ isDarkMode, setActiveTab }: HeroProps) {
   const { profile } = portfolioData;
 
   return (
@@ -33,15 +35,19 @@ export default function Hero({ isDarkMode }: HeroProps) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className={`text-4xl md:text-6xl font-bold mb-4 tracking-tight transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-zinc-900'
-          }`}>
+          <h1
+            className={`text-4xl md:text-6xl font-bold mb-4 tracking-tight transition-colors duration-500 ${
+              isDarkMode ? 'text-white' : 'text-zinc-900'
+            }`}
+          >
             Hi, I am <span className="text-rose-600">{profile.name}</span>
           </h1>
 
-          <div className={`text-xl md:text-2xl font-semibold mb-6 flex gap-2 transition-colors duration-500 ${
-            isDarkMode ? 'text-zinc-400' : 'text-zinc-600'
-          }`}>
+          <div
+            className={`text-xl md:text-2xl font-semibold mb-6 flex gap-2 transition-colors duration-500 ${
+              isDarkMode ? 'text-zinc-400' : 'text-zinc-600'
+            }`}
+          >
             I am a
             <span className="text-rose-600">
               <Typewriter
@@ -56,19 +62,30 @@ export default function Hero({ isDarkMode }: HeroProps) {
             </span>
           </div>
 
-          <p className={`mb-8 max-w-lg leading-relaxed transition-colors duration-500 ${
-            isDarkMode ? 'text-zinc-400' : 'text-zinc-500'
-          }`}>
+          <p
+            className={`mb-8 max-w-lg leading-relaxed transition-colors duration-500 ${
+              isDarkMode ? 'text-zinc-400' : 'text-zinc-500'
+            }`}
+          >
             {profile.bio}
           </p>
 
           <div className="flex gap-4">
-            <a href="#contact" className="px-6 py-3 bg-rose-600 text-white rounded font-medium hover:bg-rose-700 transition shadow-lg shadow-rose-600/20 active:scale-98">
+            <button
+              onClick={() => setActiveTab('contact')}
+              className="px-6 py-3 bg-rose-600 text-white rounded font-medium hover:bg-rose-700 transition shadow-lg shadow-rose-600/20 active:scale-98"
+            >
               Contact Me
-            </a>
-            <a href={profile.cvLink} className={`px-6 py-3 border rounded font-medium transition active:scale-98 ${
-              isDarkMode ? 'border-rose-600 text-rose-400 hover:bg-rose-600/10' : 'border-rose-500 text-rose-600 hover:bg-rose-50/50'
-            }`}>
+            </button>
+            <a
+              href={profile.cvLink}
+              target="_blank"
+              className={`px-6 py-3 border rounded font-medium transition active:scale-98 ${
+                isDarkMode
+                  ? 'border-rose-600 text-rose-400 hover:bg-rose-600/10'
+                  : 'border-rose-500 text-rose-600 hover:bg-rose-50/50'
+              }`}
+            >
               Download CV
             </a>
           </div>
@@ -81,13 +98,27 @@ export default function Hero({ isDarkMode }: HeroProps) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className={`relative w-72 h-72 md:w-96 md:h-96 rounded-2xl overflow-hidden border-2 transition-all duration-500 shadow-2xl ${
-            isDarkMode ? 'border-rose-600/30 bg-zinc-900' : 'border-rose-500/20 bg-white'
-          }`}>
-            <div className={`w-full h-full flex items-center justify-center transition-colors duration-500 ${
-              isDarkMode ? 'text-zinc-600 bg-zinc-900/50' : 'text-zinc-400 bg-gray-100'
-            }`}>
-              [Image: Ahmed Khalid Profile]
+          <div
+            className={`relative w-72 h-72 md:w-96 md:h-96 rounded-2xl overflow-hidden border-2 transition-all duration-500 shadow-2xl ${
+              isDarkMode
+                ? 'border-rose-600/30 bg-zinc-900'
+                : 'border-rose-500/20 bg-white'
+            }`}
+          >
+            <div
+              className={`w-full h-full flex items-center justify-center transition-colors duration-500 ${
+                isDarkMode
+                  ? 'text-zinc-600 bg-zinc-900/50'
+                  : 'text-zinc-400 bg-gray-100'
+              }`}
+            >
+              <Image
+                src={profile.myImage}
+                alt={profile.name}
+                width={500}
+                height={500}
+                className="w-full h-full  object-cover object-top"
+              />
             </div>
           </div>
         </motion.div>

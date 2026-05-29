@@ -12,6 +12,7 @@ import Services from '@/components/Services';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import Certificates from '@/components/Certificates';
+import ChatBot from '@/components/ChatBot';
 import {
   HiSun,
   HiMoon,
@@ -76,8 +77,6 @@ export default function Home() {
       <div
         className={`fixed top-6 ${dir === 'rtl' ? 'left-6' : 'right-6'} z-50 flex items-center gap-3`}
       >
-       
-
         {/* زر تبديل اللغة */}
         <button
           onClick={toggleLanguage}
@@ -103,8 +102,6 @@ export default function Home() {
           {isDarkMode ? <HiSun size={22} /> : <HiMoon size={22} />}
         </button>
       </div>
-
-      
 
       {/* تعديل الـ Padding بناءً على الاتجاه */}
       <div
@@ -143,6 +140,8 @@ export default function Home() {
           background: #06b6d4;
         }
       `}</style>
+
+      <ChatBot isDarkMode={isDarkMode} />
     </div>
   );
 }

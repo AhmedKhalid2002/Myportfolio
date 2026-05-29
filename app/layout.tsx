@@ -13,7 +13,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="bg-slate-50 text-slate-900 dark:bg-[#0b0c10] dark:text-gray-100 transition-colors duration-300">
+      {/* تم تحديث الخلفية الافتراضية لتكون من عائلة slate */}
+      <body className="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased">
        {children}
       </body>
     </html>

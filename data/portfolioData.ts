@@ -15,7 +15,7 @@ export interface Project {
 export const portfolioData = {
   profile: {
     name: 'Ahmed Khalid Kamal',
-    roles: ['MERN Stack Developer', 'React.js', 'Next.js', 'Node.js'],
+    roles: ['MERN Stack Developer', 'React.js', 'Next.js', 'Nest.js'],
     bio: 'Full Stack MERN Developer skilled in React.js, Next.js, Node.js, Express.js, and MongoDB. Experienced in building scalable web applications, RESTful APIs, responsive interfaces, and secure authentication systems. Focused on performance optimization, clean code, and modern web development practices.',
     cvLink: '/cv/Ahmed_khalid_kamal_Resume.pdf',
     experienceYears: '03+',

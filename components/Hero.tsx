@@ -12,7 +12,7 @@ const ParticlesBackground = dynamic(() => import('./ParticlesBackground'), {
 
 interface HeroProps {
   isDarkMode: boolean;
-  setActiveTab: (tab: string) => void; // 1. إضافة الخاصية هنا
+  setActiveTab: (tab: string) => void;
 }
 
 export default function Hero({ isDarkMode, setActiveTab }: HeroProps) {
@@ -20,70 +20,94 @@ export default function Hero({ isDarkMode, setActiveTab }: HeroProps) {
 
   return (
     <section
-      className={`relative min-h-[calc(100vh-100px)] w-full flex items-center justify-center px-4 overflow-hidden transition-colors duration-500 z-0 ${
-        isDarkMode ? 'bg-zinc-900' : 'bg-gray-50/50'
+      className={`relative min-h-screen w-full flex items-center justify-center px-4 overflow-hidden z-0 transition-all duration-700 ${
+        isDarkMode
+          ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950' // خلفية داكنة بلمسة زرقاء
+          : 'bg-gradient-to-br from-slate-50 via-white to-cyan-50' // خلفية فاتحة مثلجة
       }`}
     >
-      {/* استدعاء الخلفية المحدثة بالمراقب الديناميكي */}
+      {/* استدعاء الخلفية */}
       <ParticlesBackground />
 
-      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center z-10 relative">
-        {/* الجزء النصفي الأيسر - النصوص */}
+      <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center z-10 relative py-20">
+        
+        {/* الجزء النصفي - التفاصيل */}
         <motion.div
-          className="pointer-events-auto"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
+          className="lg:col-span-7 text-center lg:text-left space-y-6"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          <h1
-            className={`text-4xl md:text-6xl font-bold mb-4 tracking-tight transition-colors duration-500 ${
-              isDarkMode ? 'text-white' : 'text-zinc-900'
+          {/* عنوان فرعي صغير */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className={`inline-block px-4 py-1.5 rounded-full text-xs font-semibold border backdrop-blur-md ${
+              isDarkMode
+                ? 'bg-cyan-900/20 border-cyan-800/30 text-cyan-300'
+                : 'bg-cyan-100/50 border-cyan-200 text-cyan-700'
             }`}
           >
-            Hi, I am <span className="text-rose-600">{profile.name}</span>
+            Welcome to my Portfolio
+          </motion.div>
+
+          <h1
+            className={`text-4xl md:text-6xl font-bold tracking-tight leading-tight ${
+              isDarkMode ? 'text-white' : 'text-slate-900'
+            }`}
+          >
+            Hi, I am{' '}
+            <span className="bg-gradient-to-r from-cyan-500 to-sky-600 bg-clip-text text-transparent">
+              {profile.name}
+            </span>
           </h1>
 
           <div
-            className={`text-xl md:text-2xl font-semibold mb-6 flex gap-2 transition-colors duration-500 ${
-              isDarkMode ? 'text-zinc-400' : 'text-zinc-600'
+            className={`text-xl md:text-2xl font-medium flex items-center gap-2 justify-center lg:justify-start ${
+              isDarkMode ? 'text-slate-400' : 'text-slate-600'
             }`}
           >
-            I am a
-            <span className="text-rose-600">
+            <span>I am a</span>
+            <span className="text-cyan-500 font-bold">
               <Typewriter
                 options={{
                   strings: profile.roles,
                   autoStart: true,
                   loop: true,
-                  delay: 60,
-                  deleteSpeed: 40,
+                  delay: 50,
+                  deleteSpeed: 30,
                 }}
               />
             </span>
           </div>
 
           <p
-            className={`mb-8 max-w-lg leading-relaxed transition-colors duration-500 ${
-              isDarkMode ? 'text-zinc-400' : 'text-zinc-500'
+            className={`max-w-lg mx-auto lg:mx-0 leading-relaxed text-base ${
+              isDarkMode ? 'text-slate-400' : 'text-slate-500'
             }`}
           >
             {profile.bio}
           </p>
 
-          <div className="flex gap-4">
+          {/* أزرار الأكشن */}
+          <div className="flex gap-4 justify-center lg:justify-start pt-4">
             <button
               onClick={() => setActiveTab('contact')}
-              className="px-6 py-3 bg-rose-600 text-white rounded font-medium hover:bg-rose-700 transition shadow-lg shadow-rose-600/20 active:scale-98"
+              className="group relative px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-sky-600 text-white rounded-lg font-semibold overflow-hidden shadow-lg shadow-cyan-500/30 hover:shadow-sky-500/40 transition-all duration-300 active:scale-95"
             >
-              Contact Me
+              <span className="relative z-10">Contact Me</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-sky-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </button>
+            
             <a
               href={profile.cvLink}
               target="_blank"
-              className={`px-6 py-3 border rounded font-medium transition active:scale-98 ${
+              rel="noopener noreferrer"
+              className={`px-8 py-3.5 border-2 rounded-lg font-semibold transition-all duration-300 active:scale-95 ${
                 isDarkMode
-                  ? 'border-rose-600 text-rose-400 hover:bg-rose-600/10'
-                  : 'border-rose-500 text-rose-600 hover:bg-rose-50/50'
+                  ? 'border-cyan-700/50 text-cyan-300 hover:bg-cyan-900/20 hover:border-cyan-600'
+                  : 'border-cyan-300 text-cyan-700 hover:bg-cyan-50 hover:border-cyan-400'
               }`}
             >
               Download CV
@@ -91,34 +115,36 @@ export default function Hero({ isDarkMode, setActiveTab }: HeroProps) {
           </div>
         </motion.div>
 
-        {/* الجزء النصفي الأيمن - الصورة */}
+        {/* الجزء النصفي - الصورة (تأثير الزجاج المثلج) */}
         <motion.div
-          className="flex justify-center pointer-events-auto"
-          initial={{ opacity: 0, scale: 0.9 }}
+          className="lg:col-span-5 flex justify-center items-center"
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: 'backOut' }}
         >
-          <div
-            className={`relative w-72 h-72 md:w-96 md:h-96 rounded-2xl overflow-hidden border-2 transition-all duration-500 shadow-2xl ${
-              isDarkMode
-                ? 'border-rose-600/30 bg-zinc-900'
-                : 'border-rose-500/20 bg-white'
-            }`}
-          >
+          <div className="relative">
+            {/* تأثير التوهج خلف الصورة */}
+            <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500 to-sky-400 rounded-3xl blur-2xl opacity-20 dark:opacity-30" />
+            
+            {/* إطار الصورة */}
             <div
-              className={`w-full h-full flex items-center justify-center transition-colors duration-500 ${
+              className={`relative w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden p-1 backdrop-blur-xl border transition-all duration-500 ${
                 isDarkMode
-                  ? 'text-zinc-600 bg-zinc-900/50'
-                  : 'text-zinc-400 bg-gray-100'
+                  ? 'bg-white/5 border-white/10 shadow-2xl shadow-cyan-900/20'
+                  : 'bg-white/70 border-white/50 shadow-xl'
               }`}
             >
-              <Image
-                src={profile.myImage}
-                alt={profile.name}
-                width={500}
-                height={500}
-                className="w-full h-full  object-cover object-top"
-              />
+              <div className="w-full h-full rounded-2xl overflow-hidden relative">
+                <Image
+                  src={profile.myImage}
+                  alt={profile.name}
+                  fill
+                  className="object-cover object-top"
+                  priority
+                />
+                {/* تراكب لوني خفيف للستايل */}
+                <div className={`absolute inset-0 mix-blend-multiply ${isDarkMode ? 'bg-cyan-900/10' : 'bg-transparent'}`} />
+              </div>
             </div>
           </div>
         </motion.div>

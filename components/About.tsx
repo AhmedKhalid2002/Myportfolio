@@ -23,7 +23,9 @@ export default function About({ isDarkMode, setActiveTab }: AboutProps) {
     >
       {/* العنوان العلوي للقسم */}
       <div className="text-center mb-16">
-        <span className="text-xs font-bold uppercase tracking-widest text-rose-500">
+        <span
+          className={`text-xs font-bold uppercase tracking-widest ${isDarkMode ? 'text-cyan-300' : 'text-cyan-700'}`}
+        >
           Biography
         </span>
         <h2
@@ -55,7 +57,7 @@ export default function About({ isDarkMode, setActiveTab }: AboutProps) {
             }`}
           >
             <Image
-              src={profile.myImage2}
+              src={profile.myImage}
               alt={profile.name}
               width={500}
               height={500}
@@ -75,8 +77,13 @@ export default function About({ isDarkMode, setActiveTab }: AboutProps) {
               isDarkMode ? 'text-white' : 'text-zinc-800'
             }`}
           >
-            Hi, I&apos;m <span className="text-rose-500">{profile.name}</span> –
-            A MERN Stack Developer based in Egypt.
+            Hi, I&apos;m{' '}
+            <span
+              className={`${isDarkMode ? 'text-cyan-300' : 'text-cyan-700'}`}
+            >
+              {profile.name}
+            </span>{' '}
+            – A MERN Stack Developer based in Egypt.
           </h3>
 
           <p
@@ -96,7 +103,9 @@ export default function About({ isDarkMode, setActiveTab }: AboutProps) {
                   : 'bg-gray-100 border-gray-200 shadow-sm'
               }`}
             >
-              <span className="block text-2xl md:text-3xl font-extrabold text-rose-500">
+              <span
+                className={`block text-2xl md:text-3xl font-extrabold ${isDarkMode ? 'text-cyan-300' : 'text-cyan-700'}`}
+              >
                 {profile.experienceYears}
               </span>
               <span
@@ -115,7 +124,9 @@ export default function About({ isDarkMode, setActiveTab }: AboutProps) {
                   : 'bg-gray-100 border-gray-200 shadow-sm'
               }`}
             >
-              <span className="block text-2xl md:text-3xl font-extrabold text-rose-500">
+              <span
+                className={`block text-2xl md:text-3xl font-extrabold ${isDarkMode ? 'text-cyan-300' : 'text-cyan-700'} `}
+              >
                 {profile.completedProjects}
               </span>
               <span
@@ -134,7 +145,9 @@ export default function About({ isDarkMode, setActiveTab }: AboutProps) {
                   : 'bg-gray-100 border-gray-200 shadow-sm'
               }`}
             >
-              <span className="block text-2xl md:text-3xl font-extrabold text-rose-500">
+              <span
+                className={`block text-2xl md:text-3xl font-extrabold ${isDarkMode ? 'text-cyan-300' : 'text-cyan-700'}`}
+              >
                 {profile.happyClients}
               </span>
               <span
@@ -150,9 +163,10 @@ export default function About({ isDarkMode, setActiveTab }: AboutProps) {
           {/* زر التواصل */}
           <button
             onClick={() => setActiveTab('contact')}
-            className="inline-block px-6 py-3 bg-rose-600 text-white rounded font-medium hover:bg-rose-700 transition shadow-lg shadow-rose-600/10 active:scale-98"
+            className="group cursor-pointer relative px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-sky-600 text-white rounded-lg font-semibold overflow-hidden shadow-lg shadow-cyan-500/30 hover:shadow-sky-500/40 transition-all duration-300 active:scale-95"
           >
-            Let&apos;s Talk
+            <span className="relative z-10"> Let&apos;s Talk</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-sky-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </button>
         </motion.div>
       </div>

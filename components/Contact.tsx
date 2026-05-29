@@ -18,8 +18,8 @@ export default function Contact({ isDarkMode }: ContactProps) {
     {
       icon: <HiOutlineEnvelope size={28} />,
       title: 'Email',
-      value: 'ahmedokab2002@gmail.com',
-      link: 'mailto:ahmedokab2002@gmail.com',
+      value: 'kmalahmdkhald927@gmail.com', // تم تحديثه بناءً على الـ CV السابق
+      link: 'mailto:kmalahmdkhald927@gmail.com',
       actionText: 'Send an email',
     },
     {
@@ -48,25 +48,27 @@ export default function Contact({ isDarkMode }: ContactProps) {
   return (
     <section
       id="contact"
-      className={`py-16 px-6 max-w-6xl mx-auto border-b transition-colors duration-500 ${
-        isDarkMode ? 'border-zinc-900 text-gray-100' : 'border-gray-200 text-zinc-900'
+      className={`py-20 px-6 max-w-6xl mx-auto transition-all duration-700 ${
+        isDarkMode
+          ? 'bg-slate-950 text-slate-100'
+          : 'bg-white text-slate-900'
       }`}
     >
       {/* العناوين الأساسية */}
       <div className="text-center mb-16">
-        <span className="text-xs font-bold uppercase tracking-widest text-rose-500">
+        <span className="text-xs font-bold uppercase tracking-widest text-cyan-500">
           Get In Touch
         </span>
         <h2
           className={`text-3xl md:text-4xl font-bold mt-2 transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-zinc-900'
+            isDarkMode ? 'text-white' : 'text-slate-900'
           }`}
         >
           Let&apos;s Talk
         </h2>
         <p
           className={`text-sm mt-3 max-w-md mx-auto transition-colors duration-500 ${
-            isDarkMode ? 'text-zinc-400' : 'text-zinc-500'
+            isDarkMode ? 'text-slate-400' : 'text-slate-500'
           }`}
         >
           Feel free to reach out through any of these channels. I am always open
@@ -90,31 +92,31 @@ export default function Contact({ isDarkMode }: ContactProps) {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className={`p-8 rounded-2xl border text-center flex flex-col items-center justify-center group transition-all duration-500 active:scale-98 ${
               isDarkMode
-                ? 'bg-zinc-900/40 border-zinc-800 hover:border-rose-500/40 text-gray-100'
-                : 'bg-white border-gray-150 text-zinc-900 shadow-sm hover:shadow-md hover:border-rose-500/30'
+                ? 'bg-slate-900/50 border-slate-800 hover:border-cyan-500/50 text-slate-100'
+                : 'bg-slate-50 border-slate-100 text-slate-900 shadow-sm hover:shadow-md hover:border-cyan-300'
             }`}
           >
             <div
-              className={`w-14 h-14 rounded-full flex items-center justify-center text-rose-500 mb-4 group-hover:scale-110 transition-transform duration-300 ${
-                isDarkMode ? 'bg-zinc-900' : 'bg-rose-50'
+              className={`w-14 h-14 rounded-full flex items-center justify-center text-cyan-500 mb-4 group-hover:scale-110 transition-transform duration-300 ${
+                isDarkMode ? 'bg-slate-800' : 'bg-cyan-50'
               }`}
             >
               {method.icon}
             </div>
 
             <h3 className={`text-lg font-bold mb-1 transition-colors duration-500 ${
-              isDarkMode ? 'text-white' : 'text-zinc-800'
+              isDarkMode ? 'text-white' : 'text-slate-800'
             }`}>
               {method.title}
             </h3>
 
             <p className={`text-sm mb-4 transition-colors duration-500 font-medium ${
-              isDarkMode ? 'text-zinc-400' : 'text-zinc-600'
+              isDarkMode ? 'text-slate-400' : 'text-slate-600'
             }`}>
               {method.value}
             </p>
 
-            <span className="text-xs font-semibold uppercase tracking-wider text-rose-500 group-hover:text-rose-600 flex items-center gap-1 transition-colors">
+            <span className="text-xs font-semibold uppercase tracking-wider text-cyan-500 group-hover:text-sky-400 flex items-center gap-1 transition-colors">
               {method.actionText} &rarr;
             </span>
           </motion.a>
@@ -128,26 +130,26 @@ export default function Contact({ isDarkMode }: ContactProps) {
           transition={{ duration: 0.5, delay: 0.2 }}
           className={`p-8 rounded-2xl border text-center flex flex-col items-center justify-center transition-all duration-500 ${
             isDarkMode
-              ? 'bg-zinc-900/40 border-zinc-800 text-gray-100'
-              : 'bg-white border-gray-150 text-zinc-900 shadow-sm'
+              ? 'bg-slate-900/50 border-slate-800 text-slate-100'
+              : 'bg-slate-50 border-slate-100 text-slate-900 shadow-sm'
           }`}
         >
           <div
-            className={`w-14 h-14 rounded-full flex items-center justify-center text-rose-500 mb-4 ${
-              isDarkMode ? 'bg-zinc-900' : 'bg-rose-50'
+            className={`w-14 h-14 rounded-full flex items-center justify-center text-cyan-500 mb-4 ${
+              isDarkMode ? 'bg-slate-800' : 'bg-cyan-50'
             }`}
           >
             <HiOutlineChatBubbleLeftRight size={28} />
           </div>
 
           <h3 className={`text-lg font-bold mb-1 transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-zinc-800'
+            isDarkMode ? 'text-white' : 'text-slate-800'
           }`}>
             Social Media
           </h3>
 
           <p className={`text-sm mb-4 transition-colors duration-500 font-medium ${
-            isDarkMode ? 'text-zinc-400' : 'text-zinc-600'
+            isDarkMode ? 'text-slate-400' : 'text-slate-600'
           }`}>
             LinkedIn / GitHub
           </p>
@@ -160,7 +162,7 @@ export default function Contact({ isDarkMode }: ContactProps) {
                 href={soc.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-rose-600 text-white hover:bg-rose-700 transition-colors shadow-sm shadow-rose-600/10 active:scale-95"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-cyan-500 to-sky-600 text-white hover:from-sky-500 hover:to-cyan-500 transition-all shadow-md shadow-cyan-500/20 active:scale-95"
               >
                 {soc.icon}
                 {soc.name}

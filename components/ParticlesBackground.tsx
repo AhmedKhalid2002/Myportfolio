@@ -8,14 +8,14 @@ function StarsParticles() {
   const ref = useRef<any>();
 
   const [sphere] = useState(() => {
-    const pointsCount = 1000; // زدنا عدد النقاط لتغطية المساحة الموسعة
+    const pointsCount = 1000; 
     const arr = new Float32Array(pointsCount * 3);
     for (let i = 0; i < pointsCount; i++) {
       const u = Math.random();
       const v = Math.random();
       const theta = u * 2.0 * Math.PI;
       const phi = Math.acos(2.0 * v - 1.0);
-      const r = Math.cbrt(Math.random()) * 3.0; // زيادة نصف القطر لتغطية أطراف الشاشات الضخمة
+      const r = Math.cbrt(Math.random()) * 3.0; 
 
       arr[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       arr[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
@@ -36,22 +36,22 @@ function StarsParticles() {
       <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
         <PointMaterial
           transparent
-          color="#e11d48"
+          color="#06b6d4" // تم تغيير اللون إلى Cyan (أزرق سماوي)
           size={0.018}
           sizeAttenuation={true}
           depthWrite={false}
-          opacity={0.5}
+          opacity={0.6} // زيادة بسيطة في الشفافية لظهور أفضل
         />
       </Points>
     </group>
   );
 }
 
-export default function ThreeBackground() {
+// تم تغيير اسم الـ Function ليتطابق مع الاستيراد في Hero Component
+export default function ParticlesBackground() {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
-    // حساب الأبعاد الحقيقية الحالية للمتصفح لمنع الانهيار الافتراضي
     const handleResize = () => {
       setDimensions({
         width: window.innerWidth,
@@ -77,7 +77,6 @@ export default function ThreeBackground() {
       }}
     >
       <Canvas 
-        // تمرير الـ key الديناميكي يجبر Three.js على إعادة ضبط الأبعاد فوراً بمجرد تغيرها أو قراءتها
         key={`${dimensions.width}-${dimensions.height}`}
         gl={{ alpha: true, antialias: true }}
         camera={{ position: [0, 0, 1.5], fov: 60 }}

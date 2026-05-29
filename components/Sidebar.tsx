@@ -17,40 +17,62 @@ export const navItems = [
  { id: 'services', label: 'Services', icon: <HiOutlineCommandLine size={22} /> },
  { id: 'contact', label: 'Contact', icon: <HiOutlineEnvelope size={22} /> },
 ];
+
 export default function Navigation({ activeTab, setActiveTab, isDarkMode }: NavigationProps) {
 
   return (
     <>
       {/* --- الشاشات الكبيرة (Side Navbar) --- */}
       <aside className={`fixed left-0 top-0 h-screen w-20 hidden xl:flex flex-col items-center justify-between py-8 border-r backdrop-blur-md z-50 transition-all duration-500 ${
-        isDarkMode ? 'border-zinc-900 bg-[#0b0c10]/80' : 'border-gray-200 bg-white/80'
+        isDarkMode ? 'border-slate-800 bg-slate-950/80' : 'border-slate-200 bg-white/80'
       }`}>
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center font-black text-white text-lg">A</div>
+        {/* الشعار */}
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-sky-600 flex items-center justify-center font-black text-white text-lg shadow-lg shadow-cyan-500/20">
+          A
+        </div>
+        
         <nav className="flex flex-col gap-5">
           {navItems.map((item) => (
-            <button key={item.id} onClick={() => setActiveTab(item.id)} className={`group relative w-12 h-12 rounded-xl border flex items-center justify-center transition-all ${
-              activeTab === item.id ? 'bg-rose-600 border-rose-500 text-white' : isDarkMode ? 'bg-zinc-900/50 border-zinc-800 text-zinc-400' : 'bg-gray-100 border-gray-200 text-zinc-500'
-            }`}>
+            <button 
+              key={item.id} 
+              onClick={() => setActiveTab(item.id)} 
+              className={`group relative w-12 h-12 rounded-xl border flex items-center justify-center transition-all duration-300 ${
+                activeTab === item.id 
+                  ? 'bg-gradient-to-r from-cyan-500 to-sky-600 border-transparent text-white shadow-lg shadow-cyan-500/30' 
+                  : isDarkMode 
+                    ? 'bg-slate-900/50 border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-cyan-600/30' 
+                    : 'bg-slate-100 border-slate-200 text-slate-500 hover:text-cyan-600 hover:border-cyan-300'
+              }`}
+            >
               {item.icon}
-              <span className="absolute left-16 scale-0 group-hover:scale-100 opacity-0 group-hover:opacity-100 px-3 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold whitespace-nowrap shadow-md">
+              {/* Tooltip */}
+              <span className={`absolute left-16 scale-0 group-hover:scale-100 opacity-0 group-hover:opacity-100 px-3 py-1.5 rounded-lg text-white text-xs font-bold whitespace-nowrap shadow-md transition-all duration-300 ${
+                isDarkMode ? 'bg-cyan-600' : 'bg-gradient-to-r from-cyan-500 to-sky-600'
+              }`}>
                 {item.label}
               </span>
             </button>
           ))}
         </nav>
-        <div className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+        
+        {/* نقطة الوميض السفلية */}
+        <div className="w-2 h-2 rounded-full bg-cyan-500 animate-ping" />
       </aside>
 
       {/* --- الشاشات الصغيرة (Bottom Navbar) --- */}
       <nav className={`xl:hidden fixed bottom-4 left-4 right-4 rounded-2xl border backdrop-blur-md z-50 p-3 flex justify-around items-center transition-all duration-500 ${
-        isDarkMode ? 'bg-[#0b0c10]/90 border-zinc-800' : 'bg-white/90 border-gray-200 shadow-xl'
+        isDarkMode ? 'bg-slate-950/90 border-slate-800 shadow-xl shadow-cyan-900/10' : 'bg-white/90 border-slate-200 shadow-xl'
       }`}>
         {navItems.map((item) => (
           <button
             key={item.id}
             onClick={() => setActiveTab(item.id)}
-            className={`p-3 rounded-xl transition-all ${
-              activeTab === item.id ? 'text-rose-500 bg-rose-500/10' : isDarkMode ? 'text-zinc-500' : 'text-zinc-400'
+            className={`p-3 rounded-xl transition-all duration-300 ${
+              activeTab === item.id 
+              ? 'text-cyan-500 bg-cyan-500/10 shadow-inner' 
+              : isDarkMode 
+                ? 'text-slate-500 hover:text-cyan-400' 
+                : 'text-slate-400 hover:text-cyan-600'
             }`}
           >
             {item.icon}

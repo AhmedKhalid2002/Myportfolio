@@ -112,7 +112,8 @@ export default function ProjectDetails({
   if (!project) return null;
 
   // اختيار المحتوى بناءً على اللغة
-  const title = lang === 'ar' && project.title_ar ? project.title_ar : project.title;
+  const title =
+    lang === 'ar' && project.title_ar ? project.title_ar : project.title;
   const description =
     lang === 'ar' && project.description_ar
       ? project.description_ar
@@ -143,7 +144,7 @@ export default function ProjectDetails({
     exit: { opacity: 0, scale: 0.95, y: 20, transition: { duration: 0.2 } },
   };
 
-  const allImages = [project.image, ...(project.subImages || [])].slice(0, 5);
+  const allImages = [project.image, ...(project.subImages || [])].slice(0, 6);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/85 backdrop-blur-md">
@@ -161,7 +162,7 @@ export default function ProjectDetails({
         initial="hidden"
         animate="visible"
         exit="exit"
-        className={`relative w-full max-w-5xl h-[90vh] md:h-[80vh] rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 transition-colors duration-500 ${
+        className={`relative w-full max-w-7xl h-[90vh] md:h-[80vh] rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 transition-colors duration-500 ${
           isDarkMode
             ? 'bg-slate-900 border border-slate-800 text-slate-100'
             : 'bg-white border border-slate-100 text-slate-900'
@@ -196,7 +197,8 @@ export default function ProjectDetails({
                 animate={{ opacity: 1, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, filter: 'blur(4px)' }}
                 transition={{ duration: 0.25 }}
-                className="absolute inset-0 bg-cover bg-center"
+                onClick={() => window.open(`${activeImage}`, '_blank')}
+                className="absolute inset-0 bg-cover bg-center object-cover cursor-pointer object-top"
                 style={{ backgroundImage: `url(${activeImage})` }}
               />
             </AnimatePresence>
@@ -300,12 +302,27 @@ export default function ProjectDetails({
                 <HiGlobeAlt size={18} /> {t.liveDemo}
               </a>
             )}
-            {project.githubLink && (
+            {!project.rights ? (
+              <div
+                className={`w-full py-3 px-4 border rounded-xl text-center text-sm ${
+                  isDarkMode
+                    ? 'border-slate-700 text-slate-400 bg-slate-800/50'
+                    : 'border-slate-200 text-slate-600 bg-slate-50'
+                }`}
+              >
+                🔒 Source code is private and cannot be shared due to ownership
+                and confidentiality agreements.
+              </div>
+            ) : (
               <a
                 href={project.githubLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`w-full py-3 px-4 border font-bold rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.98] text-sm tracking-wide ${isDarkMode ? 'border-slate-700 text-slate-300 bg-slate-800/50 hover:bg-slate-800' : 'border-slate-200 text-slate-700 bg-slate-50 hover:bg-slate-100'}`}
+                className={`w-full py-3 px-4 border font-bold rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.98] text-sm tracking-wide ${
+                  isDarkMode
+                    ? 'border-slate-700 text-slate-300 bg-slate-800/50 hover:bg-slate-800'
+                    : 'border-slate-200 text-slate-700 bg-slate-50 hover:bg-slate-100'
+                }`}
               >
                 <HiCodeBracket size={18} /> {t.sourceCode}
               </a>

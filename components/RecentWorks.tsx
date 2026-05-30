@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData, Project } from '@/data/portfolioData';
 import ProjectDetails from './ProjectDetails';
 import { useLanguage } from '@/context/LanguageContext';
+import Image from 'next/image';
 
 interface RecentWorksProps {
   isDarkMode: boolean;
@@ -13,29 +14,29 @@ interface RecentWorksProps {
 export default function RecentWorks({ isDarkMode }: RecentWorksProps) {
   const { lang } = useLanguage(); // الحصول على اللغة الحالية
   const [filter, setFilter] = useState<
-    'All' | 'Full Stack' | 'Backend' | 'Frontend' | 'Dashboards'
+    'All' | 'Full Stack' | 'Backend' | 'Frontend' | 'Dashboard'
   >('All');
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const filteredProjects = portfolioData.projects.filter((project) =>
-    filter === 'All' ? true : project.category === filter,
+    filter === 'All' ? true : project.category.includes(filter),
   );
 
   // نصوص ثابتة للترجمة
   const staticText = {
-    en: { 
-      subtitle: 'My Portfolio', 
+    en: {
+      subtitle: 'My Portfolio',
       title: 'Recent Works',
-      viewDetails: 'View Details'
+      viewDetails: 'View Details',
     },
-    ar: { 
-      subtitle: 'أعمالي', 
+    ar: {
+      subtitle: 'أعمالي',
       title: 'المشاريع الحديثة',
-      viewDetails: 'عرض التفاصيل'
-    }
+      viewDetails: 'عرض التفاصيل',
+    },
   };
-  
+
   const text = staticText[lang];
 
   // تعريف التبويبات مع الترجمة
@@ -44,13 +45,16 @@ export default function RecentWorks({ isDarkMode }: RecentWorksProps) {
     { id: 'Full Stack', label_en: 'Full Stack', label_ar: 'Full Stack' },
     { id: 'Backend', label_en: 'Backend', label_ar: 'Backend' },
     { id: 'Frontend', label_en: 'Frontend', label_ar: 'Frontend' },
-    { id: 'Dashboards', label_en: 'Dashboards', label_ar: 'لوحات تحكم' },
+    { id: 'Dashboard', label_en: 'Dashboards', label_ar: 'لوحات تحكم' },
   ] as const;
 
   return (
-    <section id="works" className={`py-20 px-6 max-w-7xl mx-auto transition-all duration-700 ${
-      isDarkMode ? 'bg-slate-950' : 'bg-slate-50'
-    }`}>
+    <section
+      id="works"
+      className={`py-20 px-6 max-w-7xl mx-auto transition-all duration-700 ${
+        isDarkMode ? 'bg-slate-950' : 'bg-slate-50'
+      }`}
+    >
       {/* العناوين الأساسية */}
       <div className="text-center mb-12">
         <span className="text-xs font-bold uppercase tracking-widest text-cyan-500">
@@ -68,10 +72,10 @@ export default function RecentWorks({ isDarkMode }: RecentWorksProps) {
       {/* أزرار الفلترة والتنقل */}
       <div className="flex flex-wrap justify-center gap-2 mb-12">
         {tabs.map((tab) => {
-           // اختيار نص الزر بناءً على اللغة
-           const label = lang === 'ar' ? tab.label_ar : tab.label_en;
-           
-           return (
+          // اختيار نص الزر بناءً على اللغة
+          const label = lang === 'ar' ? tab.label_ar : tab.label_en;
+
+          return (
             <button
               key={tab.id}
               onClick={() => setFilter(tab.id)}
@@ -98,7 +102,8 @@ export default function RecentWorks({ isDarkMode }: RecentWorksProps) {
           {filteredProjects.map((project: Project) => {
             // اختيار النصوص بناءً على اللغة
             const title = lang === 'ar' ? project.title_ar : project.title;
-            const description = lang === 'ar' ? project.description_ar : project.description;
+            const description =
+              lang === 'ar' ? project.description_ar : project.description;
 
             return (
               <motion.div
@@ -125,14 +130,19 @@ export default function RecentWorks({ isDarkMode }: RecentWorksProps) {
                 >
                   {/* يمكن إضافة Image هنا إذا كانت الصور متوفرة */}
                   <span className="text-xs font-medium uppercase tracking-wider">
-                    {title} Banner
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover object-center"
+                    />
                   </span>
                 </div>
 
                 {/* تفاصيل الكرت */}
                 <div className="p-6">
                   <span className="text-xs font-semibold text-cyan-500 uppercase tracking-wider">
-                    {project.category}
+                    {project.category.join(' • ')}{' '}
                   </span>
                   <h3
                     className={`text-xl font-bold mt-1 mb-2 group-hover:text-cyan-500 transition-colors duration-300 ${

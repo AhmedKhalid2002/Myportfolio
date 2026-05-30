@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { portfolioData } from '@/data/portfolioData';
 import { useLanguage } from '@/context/LanguageContext';
+import { useFloatingAnimation } from '@/hooks/useFloatingAnimation';
 
 interface ServicesProps {
   isDarkMode: boolean;
@@ -11,14 +12,13 @@ interface ServicesProps {
 export default function Services({ isDarkMode }: ServicesProps) {
   const { lang, t } = useLanguage();
   const { services } = portfolioData;
+  const { floatingVariants } = useFloatingAnimation();
 
   return (
     <section
       id="services"
       className={`py-20 px-6 max-w-6xl mx-auto transition-all duration-700 ${
-        isDarkMode
-          ? 'bg-slate-950 text-slate-100'
-          : 'bg-white text-slate-900'
+        isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-white text-slate-900'
       }`}
     >
       <div className="text-center mb-16">
@@ -36,7 +36,7 @@ export default function Services({ isDarkMode }: ServicesProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {services.map((service, index) => {
-           // اختيار النصوص بناءً على اللغة
+          // اختيار النصوص بناءً على اللغة
           const title = lang === 'ar' ? service.title_ar : service.title;
           const desc = lang === 'ar' ? service.desc_ar : service.desc;
 
@@ -46,23 +46,31 @@ export default function Services({ isDarkMode }: ServicesProps) {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              variants={floatingVariants}
+              animate="animate"
               className={`p-8 rounded-2xl border transition-all duration-500 group ${
                 isDarkMode
                   ? 'bg-slate-900/50 border-slate-800 hover:border-cyan-500/40'
                   : 'bg-slate-50 border-slate-100 text-slate-900 shadow-sm hover:shadow-md hover:border-cyan-300'
               }`}
             >
-              <div className="text-3xl text-cyan-500 mb-4 group-hover:scale-110 transition-transform inline-block">⚡</div>
-              
-              <h3 className={`text-xl font-bold mb-3 transition-colors duration-500 ${
-                isDarkMode ? 'text-white' : 'text-slate-800'
-              }`}>
+              <div className="text-3xl text-cyan-500 mb-4 group-hover:scale-110 transition-transform inline-block">
+                ⚡
+              </div>
+
+              <h3
+                className={`text-xl font-bold mb-3 transition-colors duration-500 ${
+                  isDarkMode ? 'text-white' : 'text-slate-800'
+                }`}
+              >
                 {title}
               </h3>
-              
-              <p className={`text-sm leading-relaxed mb-6 transition-colors duration-500 ${
-                isDarkMode ? 'text-slate-400' : 'text-slate-500'
-              }`}>
+
+              <p
+                className={`text-sm leading-relaxed mb-6 transition-colors duration-500 ${
+                  isDarkMode ? 'text-slate-400' : 'text-slate-500'
+                }`}
+              >
                 {desc}
               </p>
             </motion.div>

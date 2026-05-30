@@ -54,16 +54,21 @@ export default function Qualification({ isDarkMode }: QualificationProps) {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: 'easeOut' },
+      transition: { duration: 0.5, ease: 'easeOut' as const },
     },
   };
 
   // نصوص ثابتة للترجمة (يمكن نقلها للـ Context إذا أحببت، لكن هنا للسرعة)
   const staticText = {
-    en: { journey: 'My Journey', qual: 'Qualification', edu: 'Education', exp: 'Experience' },
-    ar: { journey: 'مسيرتي', qual: 'المؤهلات', edu: 'التعليم', exp: 'الخبرات' }
+    en: {
+      journey: 'My Journey',
+      qual: 'Qualification',
+      edu: 'Education',
+      exp: 'Experience',
+    },
+    ar: { journey: 'مسيرتي', qual: 'المؤهلات', edu: 'التعليم', exp: 'الخبرات' },
   };
-  
+
   const text = staticText[lang];
 
   return (
@@ -260,10 +265,11 @@ export default function Qualification({ isDarkMode }: QualificationProps) {
                   {exp.stats && (
                     <div className="flex flex-wrap gap-3 mb-3">
                       {exp.stats.map((stat, index) => {
-                         // ترجمة اسم الإحصائية
-                         const label = lang === 'ar' ? stat.label_ar : stat.label;
-                         
-                         return (
+                        // ترجمة اسم الإحصائية
+                        const label =
+                          lang === 'ar' ? stat.label_ar : stat.label;
+
+                        return (
                           <div
                             key={index}
                             className={`flex flex-col items-center px-3 py-1.5 rounded-lg border ${

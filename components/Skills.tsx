@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData, skillIcons } from '@/data/portfolioData';
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext'; // استيراد هوك اللغة
+import { useFloatingAnimation } from '@/hooks/useFloatingAnimation';
 
 type Category = 'frontend' | 'backend' | 'database' | 'tools';
 
@@ -16,6 +17,7 @@ export default function Skills({ isDarkMode }: SkillsProps) {
   const { lang, t } = useLanguage(); // الحصول على اللغة الحالية ودالة الترجمة
   const [activeCategory, setActiveCategory] = useState<Category>('frontend');
   const { skillsCategories } = portfolioData;
+  const { fastFloatingVariants } = useFloatingAnimation();
 
   // تعريف التبويبات مع الترجمة
   const tabs = [
@@ -26,27 +28,35 @@ export default function Skills({ isDarkMode }: SkillsProps) {
   ] as const;
 
   // قائمة المهارات التي تحتاج عكس الألوان في الوضع الداكن
-  const invertedSkills = ['GitHub', 'Axios', 'Git', 'Yup', 'Joi', 'Zod', 'Formik', 'React Hook Form', 'Class Validator'];
+  const invertedSkills = [
+    'GitHub',
+    'Axios',
+    'Git',
+    'Yup',
+    'Joi',
+    'Zod',
+    'Formik',
+    'React Hook Form',
+    'Class Validator',
+  ];
 
   return (
     <section
       id="skills"
       className={`py-20 px-6 max-w-6xl mx-auto transition-all duration-700 ${
-        isDarkMode
-          ? 'bg-slate-950 text-slate-100'
-          : 'bg-white text-slate-900'
+        isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-white text-slate-900'
       }`}
     >
       {/* Header Section */}
       <div className="text-center mb-12">
-        <motion.span 
+        <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           className="text-xs font-bold uppercase tracking-widest text-cyan-500"
         >
           {t('skills_subtitle')} {/* Abilities */}
         </motion.span>
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -54,7 +64,9 @@ export default function Skills({ isDarkMode }: SkillsProps) {
         >
           {t('skills_title')} {/* Technical Skills */}
         </motion.h2>
-        <p className={`mt-3 text-sm max-w-md mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+        <p
+          className={`mt-3 text-sm max-w-md mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
+        >
           {t('skills_desc')} {/* Description */}
         </p>
       </div>
@@ -64,7 +76,7 @@ export default function Skills({ isDarkMode }: SkillsProps) {
         {tabs.map((tab) => {
           // اختيار النص بناءً على اللغة
           const label = lang === 'ar' ? tab.label_ar : tab.label_en;
-          
+
           return (
             <button
               key={tab.id}
@@ -84,11 +96,13 @@ export default function Skills({ isDarkMode }: SkillsProps) {
       </div>
 
       {/* Skills Grid Container */}
-      <div className={`border rounded-2xl p-6 md:p-8 ${
-        isDarkMode
-          ? 'bg-slate-900/30 border-slate-800'
-          : 'bg-slate-50 border-slate-100'
-      }`}>
+      <div
+        className={`border rounded-2xl p-6 md:p-8 ${
+          isDarkMode
+            ? 'bg-slate-900/30 border-slate-800'
+            : 'bg-slate-50 border-slate-100'
+        }`}
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
@@ -103,6 +117,8 @@ export default function Skills({ isDarkMode }: SkillsProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.03, duration: 0.3 }}
+                variants={fastFloatingVariants}
+                whileInView="animate"
                 key={skill}
                 className={`group flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-300 ${
                   isDarkMode
@@ -118,21 +134,29 @@ export default function Skills({ isDarkMode }: SkillsProps) {
                       src={skillIcons[skill]}
                       alt={skill}
                       className={`w-full h-full object-contain transition-all duration-300 ${
-                        isDarkMode && invertedSkills.includes(skill) ? 'brightness-0 invert' : ''
+                        isDarkMode && invertedSkills.includes(skill)
+                          ? 'brightness-0 invert'
+                          : ''
                       }`}
                       unoptimized={true}
                     />
                   ) : (
-                    <div className={`w-full h-full rounded-lg flex items-center justify-center font-bold text-xs ${
-                      isDarkMode ? 'bg-cyan-500/20 text-cyan-300' : 'bg-cyan-100 text-cyan-600'
-                    }`}>
+                    <div
+                      className={`w-full h-full rounded-lg flex items-center justify-center font-bold text-xs ${
+                        isDarkMode
+                          ? 'bg-cyan-500/20 text-cyan-300'
+                          : 'bg-cyan-100 text-cyan-600'
+                      }`}
+                    >
                       {skill.substring(0, 2).toUpperCase()}
                     </div>
                   )}
                 </div>
                 <span
                   className={`text-xs font-semibold text-center transition-colors ${
-                    isDarkMode ? 'text-slate-300 group-hover:text-white' : 'text-slate-700'
+                    isDarkMode
+                      ? 'text-slate-300 group-hover:text-white'
+                      : 'text-slate-700'
                   }`}
                 >
                   {skill}

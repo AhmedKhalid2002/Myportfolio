@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import { useLanguage } from '@/context/LanguageContext';
+import { useFloatingAnimation } from '@/hooks/useFloatingAnimation';
 
 interface CertificatesProps {
   isDarkMode: boolean;
@@ -15,6 +16,7 @@ interface CertificatesProps {
 export default function Certificates({ isDarkMode }: CertificatesProps) {
   const { lang } = useLanguage(); // الحصول على اللغة الحالية
   const { certificates } = portfolioData;
+  const { slowFloatingVariants } = useFloatingAnimation();
 
   // State للتحكم في الـ Lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -42,7 +44,7 @@ export default function Certificates({ isDarkMode }: CertificatesProps) {
       verify: 'التحقق',
     },
   };
-  
+
   const text = staticText[lang];
 
   return (
@@ -73,7 +75,8 @@ export default function Certificates({ isDarkMode }: CertificatesProps) {
             // اختيار النصوص بناءً على اللغة
             const title = lang === 'ar' ? cert.title_ar : cert.title;
             const issuer = lang === 'ar' ? cert.issuer_ar : cert.issuer;
-            const description = lang === 'ar' ? cert.description_ar : cert.description;
+            const description =
+              lang === 'ar' ? cert.description_ar : cert.description;
 
             return (
               <motion.div
@@ -82,6 +85,8 @@ export default function Certificates({ isDarkMode }: CertificatesProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
+                variants={slowFloatingVariants}
+                animate="animate"
                 className={`group relative rounded-2xl overflow-hidden border transition-all duration-300 ${
                   isDarkMode
                     ? 'bg-slate-900 border-slate-800 hover:border-cyan-500/50'
@@ -147,8 +152,6 @@ export default function Certificates({ isDarkMode }: CertificatesProps) {
                     >
                       {text.viewCertificate}
                     </button>
-
-                    
                   </div>
                 </div>
               </motion.div>

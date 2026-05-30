@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { portfolioData } from '@/data/portfolioData';
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext'; // استيراد هوك اللغة
+import { useFloatingAnimation } from '@/hooks/useFloatingAnimation';
 
 interface AboutProps {
   isDarkMode: boolean;
@@ -13,6 +14,7 @@ interface AboutProps {
 export default function About({ isDarkMode, setActiveTab }: AboutProps) {
   const { lang, t } = useLanguage(); // الحصول على اللغة الحالية ودالة الترجمة
   const { profile } = portfolioData;
+  const { floatingRotateVariants } = useFloatingAnimation();
 
   // اختيار النصوص بناءً على اللغة الحالية
   const name = lang === 'ar' ? profile.name_ar : profile.name;
@@ -53,6 +55,8 @@ export default function About({ isDarkMode, setActiveTab }: AboutProps) {
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
+          variants={floatingRotateVariants}
+          animate="animate"
           className={`relative max-w-sm mx-auto md:mx-0 rounded-2xl overflow-hidden border p-2 backdrop-blur-xl transition-all duration-500 ${
             isDarkMode
               ? 'bg-white/5 border-white/10 shadow-2xl shadow-cyan-900/20'

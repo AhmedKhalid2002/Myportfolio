@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { portfolioData } from '@/data/portfolioData';
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
+import { useFloatingAnimation } from '@/hooks/useFloatingAnimation';
 
 const ParticlesBackground = dynamic(() => import('./ParticlesBackground'), {
   ssr: false,
@@ -19,6 +20,7 @@ interface HeroProps {
 export default function Hero({ isDarkMode, setActiveTab }: HeroProps) {
   const { lang, t } = useLanguage();
   const { profile } = portfolioData;
+  const { floatingVariants, slowFloatingVariants } = useFloatingAnimation();
 
   // اختيار البيانات بناءً على اللغة
   const name = lang === 'ar' ? profile.name_ar : profile.name;
@@ -86,7 +88,7 @@ export default function Hero({ isDarkMode, setActiveTab }: HeroProps) {
               <span className="relative z-10">{t('btn_contact')}</span>
               <div className="absolute inset-0 bg-gradient-to-r from-sky-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </button>
-            
+
             <a
               href={profile.cvLink}
               target="_blank"
@@ -103,11 +105,13 @@ export default function Hero({ isDarkMode, setActiveTab }: HeroProps) {
         </motion.div>
 
         {/* ... Image Section remains the same ... */}
-         <motion.div
+        <motion.div
           className="flex justify-center pointer-events-auto"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
+          variants={slowFloatingVariants}
+          whileInView="animate"
         >
           <div
             className={`relative w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden p-1 backdrop-blur-xl border transition-all duration-500 shadow-2xl ${

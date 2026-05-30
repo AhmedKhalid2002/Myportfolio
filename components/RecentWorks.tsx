@@ -6,6 +6,7 @@ import { portfolioData, Project } from '@/data/portfolioData';
 import ProjectDetails from './ProjectDetails';
 import { useLanguage } from '@/context/LanguageContext';
 import Image from 'next/image';
+import { useFloatingAnimation } from '@/hooks/useFloatingAnimation';
 
 interface RecentWorksProps {
   isDarkMode: boolean;
@@ -18,6 +19,7 @@ export default function RecentWorks({ isDarkMode }: RecentWorksProps) {
   >('All');
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const { floatingXVariants } = useFloatingAnimation();
 
   const filteredProjects = portfolioData.projects.filter((project) =>
     filter === 'All' ? true : project.category.includes(filter),
@@ -112,6 +114,8 @@ export default function RecentWorks({ isDarkMode }: RecentWorksProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4 }}
+                variants={floatingXVariants}
+                whileInView="animate"
                 key={project.id}
                 onClick={() => setSelectedProject(project)}
                 className={`group rounded-2xl overflow-hidden border cursor-pointer transition-all duration-500 ${

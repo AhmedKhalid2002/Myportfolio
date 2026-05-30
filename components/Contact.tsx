@@ -8,6 +8,7 @@ import {
 } from 'react-icons/hi2';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import { useLanguage } from '@/context/LanguageContext'; // استيراد هوك اللغة
+import { useFloatingAnimation } from '@/hooks/useFloatingAnimation';
 
 interface ContactProps {
   isDarkMode: boolean;
@@ -15,6 +16,7 @@ interface ContactProps {
 
 export default function Contact({ isDarkMode }: ContactProps) {
   const { lang, t } = useLanguage(); // الحصول على اللغة الحالية ودالة الترجمة
+  const { fastFloatingVariants, floatingVariants } = useFloatingAnimation();
 
   // نصوص البطاقات (Card Text)
   const cardText = {
@@ -73,9 +75,7 @@ export default function Contact({ isDarkMode }: ContactProps) {
     <section
       id="contact"
       className={`py-20 px-6 max-w-6xl mx-auto transition-all duration-700 ${
-        isDarkMode
-          ? 'bg-slate-950 text-slate-100'
-          : 'bg-white text-slate-900'
+        isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-white text-slate-900'
       }`}
     >
       {/* العناوين الأساسية */}
@@ -101,7 +101,6 @@ export default function Contact({ isDarkMode }: ContactProps) {
 
       {/* شبكة عرض كروت التواصل المباشرة */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
         {/* كروت الاتصال والإيميل المباشرة */}
         {directMethods.map((method, index) => (
           <motion.a
@@ -113,6 +112,8 @@ export default function Contact({ isDarkMode }: ContactProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
+            variants={fastFloatingVariants}
+            animate="animate"
             className={`p-8 rounded-2xl border text-center flex flex-col items-center justify-center group transition-all duration-500 active:scale-98 ${
               isDarkMode
                 ? 'bg-slate-900/50 border-slate-800 hover:border-cyan-500/50 text-slate-100'
@@ -127,16 +128,19 @@ export default function Contact({ isDarkMode }: ContactProps) {
               {method.icon}
             </div>
 
-            <h3 className={`text-lg font-bold mb-1 transition-colors duration-500 ${
-              isDarkMode ? 'text-white' : 'text-slate-800'
-            }`}>
+            <h3
+              className={`text-lg font-bold mb-1 transition-colors duration-500 ${
+                isDarkMode ? 'text-white' : 'text-slate-800'
+              }`}
+            >
               {method.title}
             </h3>
 
-            <p className={`text-sm mb-4 transition-colors duration-500 font-medium ${
-              isDarkMode ? 'text-slate-400' : 'text-slate-600'
-            }`}
-            dir="ltr" // ضمان اتجاه النص من اليسار لليمين للبيانات
+            <p
+              className={`text-sm mb-4 transition-colors duration-500 font-medium ${
+                isDarkMode ? 'text-slate-400' : 'text-slate-600'
+              }`}
+              dir="ltr" // ضمان اتجاه النص من اليسار لليمين للبيانات
             >
               {method.value}
             </p>
@@ -153,6 +157,8 @@ export default function Contact({ isDarkMode }: ContactProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
+          variants={floatingVariants}
+          animate="animate"
           className={`p-8 rounded-2xl border text-center flex flex-col items-center justify-center transition-all duration-500 ${
             isDarkMode
               ? 'bg-slate-900/50 border-slate-800 text-slate-100'
@@ -167,16 +173,19 @@ export default function Contact({ isDarkMode }: ContactProps) {
             <HiOutlineChatBubbleLeftRight size={28} />
           </div>
 
-          <h3 className={`text-lg font-bold mb-1 transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-slate-800'
-          }`}>
+          <h3
+            className={`text-lg font-bold mb-1 transition-colors duration-500 ${
+              isDarkMode ? 'text-white' : 'text-slate-800'
+            }`}
+          >
             {text.socialTitle}
           </h3>
 
-          <p className={`text-sm mb-4 transition-colors duration-500 font-medium ${
-            isDarkMode ? 'text-slate-400' : 'text-slate-600'
-          }`}
-          dir="ltr"
+          <p
+            className={`text-sm mb-4 transition-colors duration-500 font-medium ${
+              isDarkMode ? 'text-slate-400' : 'text-slate-600'
+            }`}
+            dir="ltr"
           >
             {text.socialSub}
           </p>
@@ -197,7 +206,6 @@ export default function Contact({ isDarkMode }: ContactProps) {
             ))}
           </div>
         </motion.div>
-
       </div>
     </section>
   );

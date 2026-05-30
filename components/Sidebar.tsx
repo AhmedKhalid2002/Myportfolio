@@ -10,6 +10,7 @@ import {
   HiOutlineEnvelope,
   HiOutlineDocumentCheck,
 } from 'react-icons/hi2';
+import React from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useEffect } from 'react';
 
@@ -24,7 +25,7 @@ interface NavItem {
   id: string;
   label_en: string;
   label_ar: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
 }
 
 // قائمة العناصر مع الترجمات

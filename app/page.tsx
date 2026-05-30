@@ -115,7 +115,7 @@ export default function Home() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              transition={{ type: 'spring' as const, stiffness: 300, damping: 30 }}
               className="w-full min-h-full flex items-center justify-center"
             >
               <div className="w-full">{renderContent()}</div>

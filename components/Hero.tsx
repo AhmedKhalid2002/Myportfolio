@@ -12,6 +12,10 @@ const ParticlesBackground = dynamic(() => import('./ParticlesBackground'), {
   ssr: false,
 });
 
+const CodeAnimation = dynamic(() => import('./CodeAnimation'), {
+  ssr: false,
+});
+
 interface HeroProps {
   isDarkMode: boolean;
   setActiveTab: (tab: string) => void;
@@ -34,6 +38,7 @@ export default function Hero({ isDarkMode, setActiveTab }: HeroProps) {
       }`}
     >
       <ParticlesBackground />
+      <CodeAnimation />
 
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center z-10 relative">
         <motion.div

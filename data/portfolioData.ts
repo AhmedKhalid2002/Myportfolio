@@ -64,7 +64,7 @@ export const portfolioData = {
       major: 'Full Stack Web Development Diploma',
       major_ar: 'دبلومة تطوير الويب المتكامل',
       duration: 'Mar 2023 – Jun 2024',
-      proofImages: ['/img/proof/route/certificate.png'],
+      proofImages: ['/img/proof/Route/certificate.png'],
       proofData: {
         overallScore: { value: 'Completed', totalResponses: 1 },
         questionBreakdown: [
@@ -220,11 +220,11 @@ export const portfolioData = {
         ],
       },
       proofImages: [
-        '/img/proof/webmaster/certificate.jpg',
-        '/img/proof/webmaster/webMaster1.png',
-        '/img/proof/webmaster/webMaster2.png',
-        '/img/proof/webmaster/webMaster3.png',
-        '/img/proof/webmaster/webMaster4.png',
+        '/img/proof/webMaster/certificate.jpg',
+        '/img/proof/webMaster/webMaster1.png',
+        '/img/proof/webMaster/webMaster2.png',
+        '/img/proof/webMaster/webMaster3.png',
+        '/img/proof/webMaster/webMaster4.png',
       ],
     },
     {

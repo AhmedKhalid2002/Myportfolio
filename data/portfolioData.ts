@@ -647,7 +647,7 @@ export const portfolioData = {
       issuer: 'Web Masters',
       issuer_ar: 'ويب ماسترز',
       date: 'Dec 2024',
-      image: '/img/proof/webmaster/certificate.jpg',
+      image: '/img/proof/webMaster/certificate.jpg',
       description:
         'Completed a one-month internship focused on building dynamic and user-friendly web solutions.',
       description_ar:
@@ -661,7 +661,7 @@ export const portfolioData = {
       issuer: 'Route IT Training Center',
       issuer_ar: 'مركز Route للتدريب',
       date: 'Jun 2024',
-      image: '/img/proof/route/certificate.png',
+      image: '/img/proof/Route/certificate.png',
       description:
         'Intensive diploma covering both frontend and backend technologies to build complete web applications.',
       description_ar:
